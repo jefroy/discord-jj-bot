@@ -4,9 +4,11 @@ by following a file hierarchy thingy
 '''
 
 from os import system
-import sys
 
 folderName = 'files/'
+
+print("updating pip..")
+system('pip install update')
 
 print("Installing pre-reqs..")
 system('pip install -r' + folderName + 'pre-reqs.txt')
