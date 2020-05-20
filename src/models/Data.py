@@ -17,6 +17,17 @@ class Data:
             'Cool. Cool cool cool cool cool cool cool,',
             'no doubt no doubt no doubt no doubt.'
         ]
+        self.kirsten_quotes = [
+            'It be like that sometimes :(',
+            'oof',
+            'you fucking degenerate!',
+            'kill yourself!'
+        ]
+        self.dinesh_quotes = [
+            'stfu!!',
+            'gank me!!!',
+            'garbage ass :angry:'
+        ]
 
     def get_welcome_msg(self, name):
         return str(
