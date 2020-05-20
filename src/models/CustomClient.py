@@ -1,6 +1,6 @@
 import discord
-import os
 import random
+import os
 from dotenv import load_dotenv
 
 """
@@ -45,8 +45,8 @@ class CustomClient(discord.Client):  # inherit from discord.Client
         await member.create_dm()
         await member.dm_channel.send(
             f'Hi good day, whalecum 2 my server.\n'
-            f'wait na.. ent youse {member.name}??\n'
-            f'heh. you kinda famous around these parts bruddaman,'
+            f'wait na... ent youse {member.name}??\n'
+            f'heh. you kinda famous around these parts bruddaman, '
             f'buh doh worry, we go take good care of yuh ;) xoxo'
         )
 
