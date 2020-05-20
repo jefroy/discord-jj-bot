@@ -1,7 +1,6 @@
 import discord
 import random
-import os
-from dotenv import load_dotenv
+from models.Data import Data
 
 """
 client object represents a connection to discord.
@@ -14,18 +13,7 @@ class CustomClient(discord.Client):  # inherit from discord.Client
     # CONSTRUCTOR
     def __init__(self):
         super().__init__()  # inherit from discord client object.
-        # get context from .env
-        load_dotenv()
-        # get values from .env
-        self.TOKEN = os.getenv('DISCORD_TOKEN')
-        self.MYGUILD = os.getenv('DISCORD_GUILD')
-        self.DICT_MEMBERS = {}
-        self.b99_quotes = [
-            'I\'m the human form of the 💯 emoji.',
-            'Bingpot!',
-            'Cool. Cool cool cool cool cool cool cool,',
-            'no doubt no doubt no doubt no doubt.'
-        ]
+        self.data = Data()
 
     # EVENTS
     """
@@ -43,18 +31,13 @@ class CustomClient(discord.Client):  # inherit from discord.Client
     async def on_member_join(self, member):
         # working
         await member.create_dm()
-        await member.dm_channel.send(
-            f'Hi good day, whalecum 2 my server.\n'
-            f'wait na... ent youse {member.name}??\n'
-            f'heh. you kinda famous around these parts bruddaman, '
-            f'buh doh worry, we go take good care of yuh ;) xoxo'
-        )
+        await member.dm_channel.send(self.data.get_welcome_msg(member.name))
 
     async def on_message(self, message):
-        if message.author == self.user: # prevent a loop of cancer
+        if message.author == self.user:  # prevent a loop of cancer
             return
         if message.content == '99!':
-            response = random.choice(self.b99_quotes)
+            response = random.choice(self.data.b99_quotes)
             await message.channel.send(response)
         elif message.content == 'raise-exception':
             raise discord.DiscordException
@@ -68,17 +51,8 @@ class CustomClient(discord.Client):  # inherit from discord.Client
             else:
                 raise
 
-
     # METHODS
     # ACCESSORS
-    def get_dict_members(self):
-        return self.DICT_MEMBERS
-
-    def get_token(self):
-        return self.TOKEN
-
-    def get_my_guild(self):
-        return self.MYGUILD
 
     # UTILITY
 
@@ -86,16 +60,16 @@ class CustomClient(discord.Client):  # inherit from discord.Client
         print(f'{self.user} is connected to the following guilds:\n')
 
         for guild in self.guilds:
-            if guild.name == self.MYGUILD:
+            if guild.name == self.data.MYGUILD:
                 print(f'{guild.name}(id: {guild.id})' + f' (my guild)')
             else:
                 print(
                     f'{guild.name}(id: {guild.id})'
                 )
             members_values = '\n - '.join([member.name for member in guild.members])
-            self.DICT_MEMBERS[guild.name] = members_values
+            self.data.DICT_MEMBERS[guild.name] = members_values
             # print(f'Guild Members:\n - {members}')
 
     def get_my_guildl(self):
         # return discord.utils.find(lambda g: g.name == GUILD, client.guilds)
-        return discord.utils.get(self.guilds, name=self.MYGUILD)
+        return discord.utils.get(self.guilds, name=self.data.MYGUILD)
